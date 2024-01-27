@@ -19,6 +19,17 @@ public class Pa2U3P5JjApplication implements CommandLineRunner {
 	@Autowired
 	private IFacturaService facturaService;
 
+	//Join Types en jakarta persistance
+	//1) JOIN
+	//1.1) INNER JOIN
+	//1.2) OUTER JOIN
+	//1.2.1) RIGHT
+	//1.2.2) LEFT
+	//1.2.3) FULL
+	//2) JOIN WHERE
+	//3) FETCH JOIN
+	
+	
 	public static void main(String[] args) {
 		SpringApplication.run(Pa2U3P5JjApplication.class, args);
 	}
@@ -27,38 +38,28 @@ public class Pa2U3P5JjApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
 		
-		Factura fac = new Factura();
-		fac.setCedula("1719608729");
-		fac.setFecha(LocalDateTime.now());
-		fac.setNumero("0001-02569");
-		
-		
-		DetalleFactura det1 = new DetalleFactura();
-		det1.setCantidad(4);
-		det1.setCodigoBarras("55443322");
-		det1.setFactura(fac);
-		det1.setNombreProducto("Coca Cola");
-		
-		DetalleFactura det2 = new DetalleFactura();
-		det2.setCantidad(4);
-		det2.setCodigoBarras("66554433");
-		det2.setFactura(fac);
-		det2.setNombreProducto("Pepsi");
-		
-		List<DetalleFactura> detalle = new ArrayList<DetalleFactura>();
-		detalle.add(det1);
-		detalle.add(det2);
-		
-		fac.setDetallesFactura(detalle);
-		
-		this.facturaService.guardar(fac);
-		
-		Factura facVer = this.facturaService.buscarPorNumero("0001-02569");
-		for(DetalleFactura det:facVer.getDetallesFactura()) {
-			System.out.println(det.getCodigoBarras());
+		List<Factura> lista = this.facturaService.buscarFacturasInnerJoin();
+		for(Factura fat: lista) {
+			System.out.println(fat);
 		}
-		
-		System.out.println(facVer);
+		System.out.println("RIGHT JOIN");
+		List<Factura> lista2 = this.facturaService.buscarFacturasRightJoin();
+		for(Factura fat: lista2) {
+			System.out.println(fat.getNumero());
+		}
+		System.out.println("LEFT JOIN");
+		List<Factura> lista3 = this.facturaService.buscarFacturasLeftJoin();
+		for(Factura fat: lista3) {
+			System.out.println(fat);
+		}
+		System.out.println("FULL JOIN");
+		List<Factura> lista4 = this.facturaService.buscarFacturasLeftJoin();
+		for(Factura fat: lista4) {
+			System.out.println(fat);
+			for(DetalleFactura d : fat.getDetallesFactura()) {
+				System.out.println(d);
+			}
+		}
 	}
 
 }
