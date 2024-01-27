@@ -9,6 +9,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.uce.edu.hoteles.repository.modelo.Habitacion;
+import com.uce.edu.hoteles.repository.modelo.Hotel;
+import com.uce.edu.hoteles.service.IHabitacionService;
+import com.uce.edu.hoteles.service.IHotelService;
 import com.uce.edu.ventas.repository.modelo.DetalleFactura;
 import com.uce.edu.ventas.repository.modelo.Factura;
 import com.uce.edu.ventas.service.IFacturaService;
@@ -17,7 +21,7 @@ import com.uce.edu.ventas.service.IFacturaService;
 public class Pa2U3P5JjApplication implements CommandLineRunner {
 
 	@Autowired
-	private IFacturaService facturaService;
+	private IHotelService hotelService;
 
 	//Join Types en jakarta persistance
 	//1) JOIN
@@ -38,27 +42,25 @@ public class Pa2U3P5JjApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
 		
-		List<Factura> lista = this.facturaService.buscarFacturasInnerJoin();
-		for(Factura fat: lista) {
-			System.out.println(fat);
-		}
-		System.out.println("RIGHT JOIN");
-		List<Factura> lista2 = this.facturaService.buscarFacturasRightJoin();
-		for(Factura fat: lista2) {
-			System.out.println(fat.getNumero());
+		System.out.println("INNER JOIN");
+		List<Hotel> lista = this.hotelService.buscarPorNombreInnerJoin("El templo");
+		for(Hotel h: lista) {
+			System.out.println(h);
 		}
 		System.out.println("LEFT JOIN");
-		List<Factura> lista3 = this.facturaService.buscarFacturasLeftJoin();
-		for(Factura fat: lista3) {
-			System.out.println(fat);
+		List<Hotel> lista2 = this.hotelService.buscarPorDireccionLeftJoin("Av. Simón Bolivar");
+		for(Hotel h: lista2) {
+			System.out.println(h);
+		}
+		System.out.println("RIGHT JOIN");
+		List<Hotel> lista3 = this.hotelService.buscarPorNumeroRightJoin("A-12");
+		for(Hotel h: lista3) {
+			System.out.println(h);
 		}
 		System.out.println("FULL JOIN");
-		List<Factura> lista4 = this.facturaService.buscarFacturasLeftJoin();
-		for(Factura fat: lista4) {
-			System.out.println(fat);
-			for(DetalleFactura d : fat.getDetallesFactura()) {
-				System.out.println(d);
-			}
+		List<Hotel> lista4 = this.hotelService.buscarPorAvenidaFullJoin("C");
+		for(Hotel h: lista4) {
+			System.out.println(h);
 		}
 	}
 
