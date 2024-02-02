@@ -22,4 +22,6 @@ public interface IHotelService {
 	public List<Hotel> buscarPorNumeroRightJoin(String numero);
 	
 	public List<Hotel> buscarPorAvenidaFullJoin(String avDireccion);
+	
+	public List<Hotel> seleccionarHotelesFetchJoin();
 }

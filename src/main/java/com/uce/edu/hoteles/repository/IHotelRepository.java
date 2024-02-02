@@ -24,4 +24,6 @@ public interface IHotelRepository {
 		//FULL
 	public List<Hotel> seleccionarPorAvenidaFullJoin(String avDireccion);
 	
+	public List<Hotel> seleccionarHotelesFetchJoin();
+	
 }

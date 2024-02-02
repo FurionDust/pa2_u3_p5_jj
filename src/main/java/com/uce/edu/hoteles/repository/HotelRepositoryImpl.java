@@ -14,11 +14,11 @@ import jakarta.transaction.Transactional;
 
 @Repository
 @Transactional
-public class HotelRepositoryImpl implements IHotelRepository{
+public class HotelRepositoryImpl implements IHotelRepository {
 
 	@PersistenceContext
 	private EntityManager entityManager;
-	
+
 	@Override
 	public Hotel seleccionar(Integer id) {
 		// TODO Auto-generated method stub
@@ -47,22 +47,24 @@ public class HotelRepositoryImpl implements IHotelRepository{
 	@Override
 	public List<Hotel> seleccionarPorNombreInnerJoin(String nombre) {
 		// TODO Auto-generated method stub
-		TypedQuery<Hotel> myQuery = this.entityManager.createQuery("SELECT h FROM Hotel h JOIN h.habitaciones WHERE h.nombre =:nombre",Hotel.class);
+		TypedQuery<Hotel> myQuery = this.entityManager
+				.createQuery("SELECT h FROM Hotel h JOIN h.habitaciones WHERE h.nombre =:nombre", Hotel.class);
 		myQuery.setParameter("nombre", nombre);
 		List<Hotel> lista = myQuery.getResultList();
 		for (Hotel hot : lista) {
 			hot.getHabitaciones().size();
-	}
+		}
 		return lista;
 	}
 
 	@Override
 	public List<Hotel> seleccionarPorDireccionLeftJoin(String direccion) {
 		// TODO Auto-generated method stub
-		TypedQuery<Hotel> myQuery = this.entityManager.createQuery("SELECT h FROM Hotel h LEFT JOIN h.habitaciones WHERE h.direccion =:direccion",Hotel.class);
+		TypedQuery<Hotel> myQuery = this.entityManager.createQuery(
+				"SELECT h FROM Hotel h LEFT JOIN h.habitaciones WHERE h.direccion =:direccion", Hotel.class);
 		myQuery.setParameter("direccion", direccion);
 		List<Hotel> lista = myQuery.getResultList();
-		for(Hotel h: lista) {
+		for (Hotel h : lista) {
 			h.getHabitaciones().size();
 		}
 		return lista;
@@ -71,10 +73,11 @@ public class HotelRepositoryImpl implements IHotelRepository{
 	@Override
 	public List<Hotel> seleccionarPorNumeroRightJoin(String numero) {
 		// TODO Auto-generated method stub
-		TypedQuery<Hotel> myQuery = this.entityManager.createQuery("SELECT h FROM Hotel h RIGHT JOIN h.habitaciones a WHERE a.numero =:numero",Hotel.class);
+		TypedQuery<Hotel> myQuery = this.entityManager
+				.createQuery("SELECT h FROM Hotel h RIGHT JOIN h.habitaciones a WHERE a.numero =:numero", Hotel.class);
 		myQuery.setParameter("numero", numero);
 		List<Hotel> lista = myQuery.getResultList();
-		for(Hotel h: lista) {
+		for (Hotel h : lista) {
 			h.getHabitaciones().size();
 		}
 		return lista;
@@ -83,12 +86,22 @@ public class HotelRepositoryImpl implements IHotelRepository{
 	@Override
 	public List<Hotel> seleccionarPorAvenidaFullJoin(String avDireccion) {
 		// TODO Auto-generated method stub
-		TypedQuery<Hotel> myQuery = this.entityManager.createQuery("SELECT h FROM Hotel h FULL JOIN h.habitaciones WHERE h.direccion >:avDireccion",Hotel.class);
+		TypedQuery<Hotel> myQuery = this.entityManager.createQuery(
+				"SELECT h FROM Hotel h FULL JOIN h.habitaciones WHERE h.direccion >:avDireccion", Hotel.class);
 		myQuery.setParameter("avDireccion", avDireccion);
 		List<Hotel> lista = myQuery.getResultList();
-		for(Hotel h: lista) {
+		for (Hotel h : lista) {
 			h.getHabitaciones().size();
 		}
 		return lista;
+	}
+	
+	@Override
+	public List<Hotel> seleccionarHotelesFetchJoin() {
+		// TODO Auto-generated method stub
+		TypedQuery<Hotel> myQuery = this.entityManager
+				.createQuery("SELECT h FROM Hotel h JOIN FETCH h.habitaciones hb", Hotel.class);
+
+		return myQuery.getResultList();
 	}
 }
