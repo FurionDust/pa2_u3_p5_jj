@@ -49,8 +49,9 @@ public class Pa2U3P5JjApplication implements CommandLineRunner {
 		cli.setApellido("Perez");
 		cli.setNombre("Alejandro");
 
-		this.facturaService.guardar(fact, cli);
-
+		//this.facturaService.guardar(fact, cli);
+		System.out.println("MAIN: " +TransactionSynchronizationManager.isActualTransactionActive());
+		this.facturaService.prueba();
 	}
 
 }

@@ -100,4 +100,12 @@ public class FacturaServiceImpl implements IFacturaService {
 		return this.facturaRepository.seleccionarFacturasDTO();
 	}
 
+	@Override
+	@Transactional(value = TxType.MANDATORY)//Obligar a que desde se lo llama tenga una 
+	public void prueba() {
+
+		System.out.println("Este metodo es de prueba");
+		System.out.println("PRUEBA: "+TransactionSynchronizationManager.isActualTransactionActive());
+	}
+
 }

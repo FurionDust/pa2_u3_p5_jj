@@ -13,6 +13,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
 
 @Repository
 @Transactional
@@ -33,6 +34,7 @@ public class FacturaRepositoryImpl implements IFacturaRepository {
 	}
 
 	@Override
+	@Transactional(value = TxType.MANDATORY)
 	public void insertar(Factura factura) {
 		// TODO Auto-generated method stub
 		this.entityManager.persist(factura);
@@ -175,6 +177,13 @@ public class FacturaRepositoryImpl implements IFacturaRepository {
 		//JPQL: 
 		TypedQuery<FacturaDTO> myQuery = this.entityManager.createQuery("SELECT NEW com.uce.edu.ventas.repository.modelo.dto.FacturaDTO(f.numero,f.fecha) FROM Factura f ",FacturaDTO.class);
 		return myQuery.getResultList();
+	}
+
+	@Override
+	@Transactional(value = TxType.NOT_SUPPORTED)
+	public Factura buscar() {
+		//SELECT 
+		return null;
 	}
 
 }

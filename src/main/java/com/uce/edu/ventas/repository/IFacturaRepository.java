@@ -36,4 +36,7 @@ public interface IFacturaRepository {
 	public List<Factura> seleccionarFacturasFetchJoin();
 	
 	public List<FacturaDTO> seleccionarFacturasDTO(); 
+	
+	public Factura buscar();
+	
 }
